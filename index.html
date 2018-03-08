@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/AllBusinesses_0.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[33.8212124358,-83.5638356356],[34.0661071293,-83.1124826356]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('https://api.mapbox.com/styles/v1/rcp1997/cjej1wycy7zg72ro28usv7vby/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmNwMTk5NyIsImEiOiJjamU2M2NoMmgwZWJzMndtbmczOWl2MXptIn0.8xi8bcGmhuWmtVBUGyEeKg', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function pop_AllBusinesses_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Category</th>\
+                        <td>' + (feature.properties['Category'] !== null ? Autolinker.link(String(feature.properties['Category'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Address</th>\
+                        <td>' + (feature.properties['Address'] !== null ? Autolinker.link(String(feature.properties['Address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">City</th>\
+                        <td>' + (feature.properties['City'] !== null ? Autolinker.link(String(feature.properties['City'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Phone</th>\
+                        <td>' + (feature.properties['Phone'] !== null ? Autolinker.link(String(feature.properties['Phone'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Website</th>\
+                        <td>' + (feature.properties['Website'] !== null ? Autolinker.link(String(feature.properties['Website'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Hours</th>\
+                        <td>' + (feature.properties['Hours'] !== null ? Autolinker.link(String(feature.properties['Hours'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_AllBusinesses_0_0(feature) {
+            switch(String(feature.properties['Category'])) {
+                case 'Automotive':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,106,119,1.0)',
+            }
+                    break;
+                case 'Barber & Beauty':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(81,212,64,1.0)',
+            }
+                    break;
+                case 'Bars & Night Life':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(119,218,37,1.0)',
+            }
+                    break;
+                case 'Education':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,79,231,1.0)',
+            }
+                    break;
+                case 'Financial Services':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,103,64,1.0)',
+            }
+                    break;
+                case 'Fitness':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(61,169,201,1.0)',
+            }
+                    break;
+                case 'Funeral Homes':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(63,207,142,1.0)',
+            }
+                    break;
+                case 'Healthcare':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,58,126,1.0)',
+            }
+                    break;
+                case 'Home repair and maintenance':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(183,115,234,1.0)',
+            }
+                    break;
+                case 'Law':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,129,214,1.0)',
+            }
+                    break;
+                case 'Lawn Maintenance':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,217,19,1.0)',
+            }
+                    break;
+                case 'Media':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(121,232,219,1.0)',
+            }
+                    break;
+                case 'Pet Sitting/Pet Store':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,222,28,1.0)',
+            }
+                    break;
+                case 'Restaurant/Ice Cream':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,92,220,1.0)',
+            }
+                    break;
+                case 'Retail/Shops':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(106,149,204,1.0)',
+            }
+                    break;
+                case 'Social Work':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,130,202,1.0)',
+            }
+                    break;
+                case 'Tech/Cellular':
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,151,51,1.0)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_AllBusinesses_0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(53,216,88,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_AllBusinesses_0');
+        map.getPane('pane_AllBusinesses_0').style.zIndex = 400;
+        map.getPane('pane_AllBusinesses_0').style['mix-blend-mode'] = 'normal';
+        var layer_AllBusinesses_0 = new L.geoJson(json_AllBusinesses_0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_AllBusinesses_0',
+            onEachFeature: pop_AllBusinesses_0,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_AllBusinesses_0_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_AllBusinesses_0);
+        map.addLayer(layer_AllBusinesses_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'All Businesses<br /><table><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Automotive0.png" /></td><td>Automotive</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_BarberBeauty1.png" /></td><td>Barber & Beauty</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_BarsNightLife2.png" /></td><td>Bars & Night Life</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Education3.png" /></td><td>Education</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_FinancialServices4.png" /></td><td>Financial Services</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Fitness5.png" /></td><td>Fitness</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_FuneralHomes6.png" /></td><td>Funeral Homes</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Healthcare7.png" /></td><td>Healthcare</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Homerepairandmaintenance8.png" /></td><td>Home repair and maintenance</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Law9.png" /></td><td>Law</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_LawnMaintenance10.png" /></td><td>Lawn Maintenance</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_Media11.png" /></td><td>Media</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_PetSittingPetStore12.png" /></td><td>Pet Sitting/Pet Store</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_RestaurantIceCream13.png" /></td><td>Restaurant/Ice Cream</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_RetailShops14.png" /></td><td>Retail/Shops</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_SocialWork15.png" /></td><td>Social Work</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_TechCellular16.png" /></td><td>Tech/Cellular</td></tr><tr><td style="text-align: center;"><img src="legend/AllBusinesses_0_17.png" /></td><td></td></tr></table>': layer_AllBusinesses_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
